@@ -1,8 +1,10 @@
+/*
 variable "aws_region" {
   description = "AWS region for the deployment."
   type        = string
   default     = "ap_southeast_4"
 }
+*/
 
 variable "project_name" {
   description = "Project prefix used across the infrastructure."

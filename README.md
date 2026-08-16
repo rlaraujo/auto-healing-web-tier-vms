@@ -8,7 +8,7 @@ This Terraform project provisions an application load balancer in front of an Au
 - Internet-facing Application Load Balancer
 - Target group with HTTP health checks on `/`
 - Auto Scaling Group with `min_size = 2`, `desired_capacity = 2`, and `max_size = 3`
-- Launch template that ~~boots Amazon Linux 2 and installs NGINX~~ pulls an image from docker hub: rlaraujo/auto-healing-web-tier-vms-image:v1
+- Launch template that ~~boots Amazon Linux 2 and installs NGINX~~ pulls and runs an image from docker hub: rlaraujo/auto-healing-web-tier-vms-image:v1
 
 This provides the required behavior:
 
@@ -19,9 +19,9 @@ This provides the required behavior:
 ## Prerequisites
 
 - Terraform v1.15 or later
-- AWS credentials configured via `aws configure`, the AWS CLI profile, or environment variables, you can also use the AWS Toolkit VSCode extension (optional, but highly recommended) 
+- AWS credentials configured via `aws configure`, the AWS CLI profile, or environment variables, you can also use the AWS Toolkit VSCode extension (highly recommended by AWS) 
 
-NOTE on credentials:
+### NOTE on AWS credentials!
 - In this step, if you run into this isue: "An error occurred (InvalidClientTokenId) when calling the GetCallerIdentity operation: 
 The security token included in the request is invalid.",
 Please follow instructions on section "The Chosen Solution: Creating a New IAM User" of this link https://medium.com/@Ibraheemcisse/troubleshooting-aws-cli-invalidclienttokenid-error-a-real-world-solution-bfe67a36558e 
@@ -123,8 +123,19 @@ aws_vpc.main  (some line items use static rates)
   PROJECT TOTAL: $16.43/mo
 
 ## Why did I choose AWS ASG(over Azure VMSS)?
+
 The primary advantages of using AWS Auto Scaling Groups (ASG) over Azure Virtual Machine Scale Sets (VMSS) center on deeper cross-service flexibility, more granular policy controls, and a highly customizable compute ecosystem. While Azure VMSS excels in uniform, Windows-heavy virtual machine environments, AWS ASG provides superior structural agility for complex cloud architectures
 Source: https://medium.com/@QuarkAndCode/azure-vs-aws-for-autoscaling-workloads-policies-pricing-fit-b87cc301cd5e
+
+## GitHub Actions pipeline
+
+### Job1: Terraform Validation
+- Format check, tf init, tf validate
+### Job2: Linting (with TFLint)
+- Install TFLint, initialise it and run it
+### Job3: Docker build validation
+- Prepare Docker advanced build system
+- Build Docker image
 
 ## Notes
 
@@ -132,4 +143,9 @@ Source: https://medium.com/@QuarkAndCode/azure-vs-aws-for-autoscaling-workloads-
 - The ALB DNS name is exported (see outputs.tf file, line 1) for easy access in a browser.
 - Reference to Terraform AWS resources: https://registry.terraform.io/providers/hashicorp/aws/latest/docs 
 - Please change the aws_lb_target_group health check params (i.e. timeout) if required
-- No branching used along with Pull requests, connecting commits to issues (#123), and other best practices for simplicity
+- Not used (for simplicity): 
+-- Branching
+-- Pull requests
+-- connecting commits to issues (#123)
+-- Separate .tfvars file with values (from the variables.tf file - definition). Also good for environments, work in a team and scalability
+- Also we did not add a validation to avoid committing directly to `main`
