@@ -167,10 +167,7 @@ resource "aws_launch_template" "web" {
 
   vpc_security_group_ids = [aws_security_group.web.id]
 
-  user_data = base64encode(templatefile("${path.module}/templates/user-data.sh", {
-    html_path    = "/var/www/html/index.html"
-    html_content = file("${path.module}/templates/index.html")
-  }))
+  user_data = base64encode(file("${path.module}/templates/user-data.sh"))
 
   tag_specifications {
     resource_type = "instance"
