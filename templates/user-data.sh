@@ -3,12 +3,19 @@ set -euxo pipefail
 
 yum update -y
 
-yum install -y nginx
-systemctl enable nginx
-systemctl start nginx
+yum install -y docker
+systemctl enable docker
+systemctl start docker
 
-cat <<'HTML' > /usr/share/nginx/html/index.html
+mkdir -p "$(dirname "${html_path}")"
+cat <<'HTML' > "${html_path}"
 ${html_content}
 HTML
 
-systemctl reload nginx
+docker run -d \
+  --name web-tier \
+  -p 80:80 \
+  -v "${html_path}":/usr/share/nginx/html/index.html:ro \
+  nginx:latest
+
+# Keep the container running and let the ALB hit the exposed port 80.
