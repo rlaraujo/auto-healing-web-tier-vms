@@ -16,7 +16,9 @@ This provides the required behavior:
 - N+1 capacity: the load balancer spreads traffic across multiple healthy instances.
 - IaC-only setup: a single `terraform apply` creates everything; a second run is idempotent.
 
-## Prerequisites
+![Architecture Diagram](architecture-diagram.png)
+
+## Prerequisitesß
 
 - Terraform v1.15 or later
 - AWS credentials configured via `aws configure`, the AWS CLI profile, or environment variables, you can also use the AWS Toolkit VSCode extension (highly recommended by AWS) 
