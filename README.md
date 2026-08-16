@@ -122,6 +122,10 @@ aws_vpc.main  (some line items use static rates)
   ────────────────────────────────────────────────────────────
   PROJECT TOTAL: $16.43/mo
 
+## Why did I choose AWS ASG(over Azure VMSS)?
+The primary advantages of using AWS Auto Scaling Groups (ASG) over Azure Virtual Machine Scale Sets (VMSS) center on deeper cross-service flexibility, more granular policy controls, and a highly customizable compute ecosystem. While Azure VMSS excels in uniform, Windows-heavy virtual machine environments, AWS ASG provides superior structural agility for complex cloud architectures
+Source: https://medium.com/@QuarkAndCode/azure-vs-aws-for-autoscaling-workloads-policies-pricing-fit-b87cc301cd5e
+
 ## Notes
 
 - The default region is `ap-southeast-4`, but you can override it (for example) with `terraform apply -var='aws_region=ap-southeast-2'`.
