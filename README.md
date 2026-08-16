@@ -141,13 +141,13 @@ Source: https://medium.com/@QuarkAndCode/azure-vs-aws-for-autoscaling-workloads-
 
 ## Notes
 
-- The default region is `ap-southeast-4`, but you can override it (for example) with `terraform apply -var='aws_region=ap-southeast-2'`.
+- ~~The default region is `ap-southeast-4`, but you can override it (for example) with `terraform apply -var='aws_region=ap-southeast-2'`~~
 - The ALB DNS name is exported (see outputs.tf file, line 1) for easy access in a browser.
 - Reference to Terraform AWS resources: https://registry.terraform.io/providers/hashicorp/aws/latest/docs 
 - Please change the aws_lb_target_group health check params (i.e. timeout) if required
-- Not used (for simplicity): 
+- Best practices not used in this project (for the sake of simplicity): 
 -- Branching
 -- Pull requests
--- connecting commits to issues (#123)
+-- Connecting commits to issues (#123)
 -- Separate .tfvars file with values (from the variables.tf file - definition). Also good for environments, work in a team and scalability
-- Also we did not add a validation to avoid committing directly to `main`
+- Also we did not add a validation (on github actions) to avoid committing directly to `main`
