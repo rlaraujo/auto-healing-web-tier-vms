@@ -8,7 +8,7 @@ This Terraform project provisions an application load balancer in front of an Au
 - Internet-facing Application Load Balancer
 - Target group with HTTP health checks on `/`
 - Auto Scaling Group with `min_size = 2`, `desired_capacity = 2`, and `max_size = 3`
-- Launch template that boots Amazon Linux 2 and installs NGINX
+- Launch template that ~~boots Amazon Linux 2 and installs NGINX~~ pulls an image from docker hub: rlaraujo/auto-healing-web-tier-vms-image:v1
 
 This provides the required behavior:
 
@@ -132,3 +132,4 @@ Source: https://medium.com/@QuarkAndCode/azure-vs-aws-for-autoscaling-workloads-
 - The ALB DNS name is exported (see outputs.tf file, line 1) for easy access in a browser.
 - Reference to Terraform AWS resources: https://registry.terraform.io/providers/hashicorp/aws/latest/docs 
 - Please change the aws_lb_target_group health check params (i.e. timeout) if required
+- No branching used along with Pull requests, connecting commits to issues (#123), and other best practices for simplicity
