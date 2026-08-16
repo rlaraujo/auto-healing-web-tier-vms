@@ -4,7 +4,7 @@ data "aws_availability_zones" "available" {
 
 data "aws_ami" "amazon_linux_2" {
   most_recent = true
-  owners = ["amazon"]
+  owners      = ["amazon"]
 
   filter {
     name   = "name"
@@ -167,28 +167,10 @@ resource "aws_launch_template" "web" {
 
   vpc_security_group_ids = [aws_security_group.web.id]
 
-  user_data = base64encode(<<-EOT
-    #!/bin/bash
-    yum update -y
-    yum install -y nginx
-    systemctl enable nginx
-    systemctl start nginx
-    cat <<'HTML' > /usr/share/nginx/html/index.html
-    <!doctype html>
-    <html lang="en">
-      <head>
-        <meta charset="utf-8">
-        <title>Auto-Healing Web Tier</title>
-      </head>
-      <body>
-        <h1>Welcome to the Auto-Healing Web Tier</h1>
-        <p>This instance is healthy and serving traffic.</p>
-      </body>
-    </html>
-    HTML
-    systemctl reload nginx
-  EOT
-  )
+  user_data = base64encode(templatefile("${path.module}/templates/user-data.sh", {
+    html_path    = "/usr/share/nginx/html/index.html"
+    html_content = file("${path.module}/templates/index.html")
+  }))
 
   tag_specifications {
     resource_type = "instance"
